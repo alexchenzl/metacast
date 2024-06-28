@@ -1,0 +1,41 @@
+{
+  "users": [
+    {
+      "id": "fec4b6a6-4371-5874-9653-442a410544b2",
+      "name": "user1",
+      "email": "user@xxx.com",
+      "password": "123456"
+    }
+  ],
+  "casts": [
+    {
+      "hash": "0xf5ffd1aeb1f5bab0d68d26beac49aa040f7706a5",
+      "profileName": "yb",
+      "fid": "3206",
+      "text": "So if you’re a /diet-coke enthusiast, all of your followers will see your silly casts about caffeine in their home feeds, even if they prefer /coffee or Pepsi. But with narrowcasts, you can limit your casts to only followers of /diet-coke.",
+      "castedAtTimestamp": "2024-06-17T21:17:23Z",
+      "channelId": "toc",
+      "numberOfLikes": 109,
+      "numberOfRecasts": 21,
+      "numberOfReplies": 51,
+      "scv": 5925.07280719819,
+      "tags": "narrowcasts"
+    },
+    {
+      "hash": "0xdc90f3d2d3660e3c1e9ea053df2a81d976ff86c3",
+      "profileName": "dwr.eth",
+      "fid": "3",
+      "text": "FAQ\n\n1. What happens when I narrowcast?\n> Normally, when you cast in a channel it goes out to all of your followers—regardless of whether they follow the channel. So if you’re a /diet-coke enthusiast, all of your followers will see your silly casts about caffeine in their home feeds, even if they prefer /coffee or Pepsi. But with narrowcasts, you can limit your casts to only followers of /diet-coke.\n\nNote: this is a Warpcast-only behavior for now. Other clients are free adopt or disregard this.\n\n2. Are narrowcasts part of the protocol?\n> No. They’re an experiment.\n\n3. How long will you run the experiment?\n> For a couple weeks. If it has low usage, we will likely remove. If usage looks good, we’ll work on incorporating into the protocol.\n\n4. I want to see all casts from everyone I follow even if they narrowcast but I don’t want to follow every channel!\n> Try using another client like @supercast or @herocast",
+      "castedAtTimestamp": "2024-06-17T22:10:41Z",
+      "channelId": "fc-updates",
+      "numberOfLikes": 532,
+      "numberOfRecasts": 144,
+      "numberOfReplies": 99,
+      "scv": 3925.07280719819,
+      "tags": "warpcast, narrowcasts"
+    }
+  ]
+}
+
+
+
