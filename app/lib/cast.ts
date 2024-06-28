@@ -11,7 +11,6 @@ import {CastAddMessage, CastType, HubResult} from "@farcaster/core";
 import {HeadlineCast} from "@/app/lib/definitions";
 import {DateTime} from "luxon";
 import {bulkUpdateCastStatuses} from "@/app/lib/data";
-import OpenAI from "openai";
 
 config();
 
@@ -26,6 +25,7 @@ const dataOptions = {
     fid: FID,
     network: FC_NETWORK,
 };
+const CHANNEL_URL = process.env.CHANNEL_URL as string;
 
 export async function makeHeadlineCastToAdd(message: HeadlineCast): Promise<HubResult<CastAddMessage>> {
     const cast = await makeCastAdd(
@@ -35,6 +35,7 @@ export async function makeHeadlineCastToAdd(message: HeadlineCast): Promise<HubR
             embedsDeprecated: [],
             mentions: [message.fid],
             mentionsPositions: [0],
+            parentUrl: CHANNEL_URL,
             type: CastType.CAST,
         },
         dataOptions,
