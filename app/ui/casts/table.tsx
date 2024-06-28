@@ -5,6 +5,7 @@ import {
   formatDatetimeToUTC,
 } from '@/app/lib/utils';
 import { fetchFilteredCasts } from '@/app/lib/data';
+import clsx from "clsx";
 
 export default async function CastsTable({
   period,
@@ -55,13 +56,7 @@ export default async function CastsTable({
                 Summary
               </th>
               <th scope="col" className="px-3 py-5 font-medium">
-                Status
-              </th>
-              <th scope="col" className="px-3 py-5 font-medium">
                 Fetched At
-              </th>
-              <th scope="col" className="relative py-3 pl-6 pr-3">
-                <span className="sr-only">Edit</span>
               </th>
             </tr>
             </thead>
@@ -69,9 +64,22 @@ export default async function CastsTable({
             {casts?.map((cast, index) => (
                 <tr
                     key={cast.hash}
-                    className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
+                    className={ clsx("w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg",
+                        {
+                          "bg-gray-50": index % 2 !== 0,
+                          "bg-white": index % 2 === 0,
+                        }
+                    )}
                 >
-                  <td className="whitespace-nowrap px-3 py-3">{index + 1}</td>
+                  <td className="whitespace-nowrap px-3 py-3">
+                    <div className="flex items-center gap-3">
+                      <p>{index + 1 + 10 * (currentPage - 1)}</p>
+                      <div className="flex justify-end gap-3">
+                        <UpdateCast hash={cast.hash}/>
+                      </div>
+                      <div><CastStatus status={cast.status}/></div>
+                    </div>
+                  </td>
                   <td className="w-96 whitespace-pre-line px-3 py-3 text-base">
                     <a
                         href={`https://warpcast.com/${cast.username}/${cast.hash.slice(0, 9)}`}
@@ -105,15 +113,7 @@ export default async function CastsTable({
                     <p className="line-clamp-5">{cast.summary}</p>
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    <CastStatus status={cast.status}/>
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
                     {formatDatetimeToDateUTC(cast.fetched_at)}
-                  </td>
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                    <div className="flex justify-end gap-3">
-                      <UpdateCast hash={cast.hash}/>
-                    </div>
                   </td>
                 </tr>
             ))}
