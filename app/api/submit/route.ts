@@ -30,14 +30,21 @@ export async function POST(req: Request) {
         let data = await req.json()
 
         await castsSchema.parseAsync(data)
-
+        // Remove duplicates
+        const hashes = new Set();
         data.forEach((cast: any) => {
-            cast.fetched_at = now;
-            if (cast.tags === null) {
-                cast.tags = '';
+            if (!hashes.has(cast.hash)) {
+                hashes.add(cast.hash)
+                cast.fetched_at = now;
+                if (cast.tags === null) {
+                    cast.tags = '';
+                }
+            } else {
+                cast.fetched_at = null;
+                console.log('duplicate cast:', cast.hash)
             }
         });
-
+        data = data.filter((cast: any) => cast.fetched_at !== null);
         await bulkInsertCasts(data)
     } catch (e) {
         console.error(e)
