@@ -78,13 +78,16 @@ export async function fetchFilteredCasts(
 ) {
     const now = DateTime.now().setZone('UTC');
     let to = now.toISO();
-    let from = now.minus({days: 1}).toISO();
 
+    let fromTime = now.minus({days: 1});
     if (period === 'last7days') {
-        from = now.minus({days: 7}).toISO();
+        fromTime = now.minus({days: 7});
     } else if (period === 'alltime') {
-        from = now.minus({days: 365}).toISO();
+        fromTime = now.minus({days: 365});
     }
+
+    let from = fromTime.toISO();
+    let castedAtFrom = fromTime.toISODate()
     console.log('date range', from, 'to', to);
 
     const offset = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -93,8 +96,9 @@ export async function fetchFilteredCasts(
             SELECT *
             FROM casts
             WHERE (casts.fetched_at BETWEEN ${from} AND ${to})
+              AND casts.casted_at::timestamp::date >= ${castedAtFrom}
               AND (casts.tags ILIKE ${`%${tag}%`} OR casts.channel ILIKE ${`%${tag}%`})
-            ORDER BY casts.fetched_at::timestamp::date DESC, casts.status DESC, casts.scv DESC
+            ORDER BY  casts.status DESC, casts.fetched_at::timestamp::date DESC, casts.scv DESC
                 LIMIT ${ITEMS_PER_PAGE}
             OFFSET ${offset}
         `;
@@ -110,17 +114,21 @@ export async function fetchCastsPages(period: string, tag: string) {
     try {
         const now = DateTime.now().setZone('UTC');
         let to = now.toISO();
-        let from = now.minus({days: 1}).toISO();
 
+        let fromTime = now.minus({days: 1});
         if (period === 'last7days') {
-            from = now.minus({days: 7}).toISO();
+            fromTime = now.minus({days: 7});
         } else if (period === 'alltime') {
-            from = now.minus({days: 365}).toISO();
+            fromTime = now.minus({days: 365});
         }
+
+        let from = fromTime.toISO();
+        let castedAtFrom = fromTime.toISODate()
 
         const count = await sql`SELECT COUNT(*)
                                 FROM casts
                                 WHERE (casts.fetched_at BETWEEN ${from} AND ${to})
+                                  AND casts.casted_at::timestamp::date >= ${castedAtFrom}
                                   AND (casts.tags ILIKE ${`%${tag}%`} OR casts.channel ILIKE ${`%${tag}%`})
         `;
 
